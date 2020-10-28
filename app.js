@@ -47,7 +47,10 @@ function addItem(e) {
         list.appendChild(element);
         //display alert
         
-        displayAlert("item added to the list","success")
+        displayAlert("item added to the list","success");
+        
+        //show container
+        container.classList.add("show-container");
     }
        else if(value && editFlag) {
            //edit set to true when clicking on edit button
