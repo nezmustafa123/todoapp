@@ -228,6 +228,14 @@ function setBackToDefault() {
 }
 // **** local storage ******
 function addToLocalStorage(id, value) {
+   const grocery = {id: id, value:value};
+    console.log(grocery);
+    //if list exists parse it otherwise set to empty array
+    let items = localStorage.getItem("list")
+    ? JSON.parse(localStorage.getItem("list"))
+    : [];
+    items.push(grocery);
+    localStorage.setItem('list', JSON.strongify(items));
 //    console.log("added to local storage");
 }
 
