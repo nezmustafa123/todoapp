@@ -85,7 +85,8 @@ function addItem(e) {
         editElement.innerHTML = value;
         displayAlert('value changed', 'success');
         //edit local storage pass global editID down
-        setBackToDefault(editID, value);
+        editLocalStorage(editID, value);
+        setBackToDefault();
      }
     else {
        displayAlert("please enter value", "danger");
@@ -178,7 +179,7 @@ function clearItems() {
     //set up the colour as danger 
     displayAlert("empty list", "danger");
     setBackToDefault();
-//    localStoreage.removeItem('list');
+    localStorage.removeItem('list');
     
 }
 
@@ -226,24 +227,53 @@ function setBackToDefault() {
     editID = "";
     submitBtn.textContent = "Submit";
 }
+
+
+
 // **** local storage ******
 function addToLocalStorage(id, value) {
-   const grocery = {id: id, value:value};
-    console.log(grocery);
+   const grocery = {id: id, value: value};
+   
     //if list exists parse it otherwise set to empty array
-    let items = localStorage.getItem("list")
-    ? JSON.parse(localStorage.getItem("list"))
-    : [];
+    let items = getLocalStorage();
+    console.log(items);
     items.push(grocery);
-    localStorage.setItem('list', JSON.strongify(items));
+    localStorage.setItem('list', JSON.stringify(items));
 //    console.log("added to local storage");
 }
 
 function removeFromLocalStorage(id) {
+    let items = getLocalStorage();
     
+    items = items.filter(function (item){
+        if (item.id !== id) {
+        return item;
+        }
+    });
+    
+    //set the new items in local storage
+    
+    localStorage.setItem("list", JSON.stringify(items));
 }
 function editLocalStorage(id, value) {
-    
+//    either get items or empty array
+    let items = getLocalStorage();
+    items = items.map(function (item){
+        if (item.id === id){
+            item.value = value;
+        }
+//        set old value equal to new value passed in
+        return item;
+    });
+   localStorage.setItem("list", JSON.stringify(items));
+
+}
+
+
+function getLocalStorage() {
+  return  localStorage.getItem("list") ?
+      JSON.parse(localStorage.getItem("list"))
+    : [];
 }
 // **** setup item ******
 
