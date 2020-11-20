@@ -83,7 +83,7 @@ function addItem(e) {
         
 //        grab value and assign it back to paragraph
         editElement.innerHTML = value;
-        displayAlert('value changed', 'success');
+        displayAlert("value changed", "success");
         //edit local storage pass global editID down
         editLocalStorage(editID, value);
         setBackToDefault();
