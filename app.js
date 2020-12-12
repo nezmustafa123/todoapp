@@ -22,7 +22,9 @@ form.addEventListener('submit',addItem);
 
 clearBtn.addEventListener('click',clearItems);
 
+// load items
 
+window.addEventListener('DOMContentLoaded', setupItems);
 
 // **** functions ******
 function addItem(e) {
@@ -33,36 +35,7 @@ function addItem(e) {
     //options and conditions
     //if value not equal to empty string and not editing
     if (value !== "" && !editFlag) {
-        const element = document.createElement("article");
-        //add id
-        let attr = document.createAttribute("data-id");
-         //add dynmaic id
-        attr.value = id;
-       //add the value to attribute 
-        // set the attribute value of the element
-
-        element.setAttributeNode(attr);
-        //add class
-        element.classList.add("grocery-item");
-        element.innerHTML = `<p class="title">${value}</p>
-              <div class="btn-container">
-                  <button type="button" class="edit-btn">
-                   <i class="fas fa-edit"></i>
-
-                  </button>
-                 <button type="button" class="delete-btn">
-                   <i class="fas fa-trash"></i>
-                 </button>
-              </div>
-              `;
-        const deleteBtn = element.querySelector('.delete-btn');
-        deleteBtn.addEventListener('click', deleteItem);
-
-        const editBtn = element.querySelector('.edit-btn');
-        editBtn.addEventListener('click', editItem);
-        //append child
-        //add element to the list
-        list.appendChild(element);
+       createListItem(id,value);
         //display alert
         
         displayAlert("item added to the list", "success");
@@ -91,7 +64,7 @@ function addItem(e) {
     else {
        displayAlert("please enter value", "danger");
     }
-    
+   
     
 //    
 //    
@@ -277,3 +250,46 @@ function getLocalStorage() {
 }
 // **** setup item ******
 
+function setupItems() {
+    let items = getLocalStorage();
+//    if there are items then display them
+    if(items.length > 0) {
+        items.forEach(function(item){
+            createListItem(item.id,item.value)
+        })
+        container.classList.add('show-container')
+    }
+}
+
+function createListItem(id, value) {
+     const element = document.createElement("article");
+        //add id
+        let attr = document.createAttribute("data-id");
+         //add dynmaic id
+        attr.value = id;
+       //add the value to attribute 
+        // set the attribute value of the element
+
+        element.setAttributeNode(attr);
+        //add class
+        element.classList.add("grocery-item");
+        element.innerHTML = `<p class="title">${value}</p>
+              <div class="btn-container">
+                  <button type="button" class="edit-btn">
+                   <i class="fas fa-edit"></i>
+
+                  </button>
+                 <button type="button" class="delete-btn">
+                   <i class="fas fa-trash"></i>
+                 </button>
+              </div>
+              `;
+        const deleteBtn = element.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', deleteItem);
+
+        const editBtn = element.querySelector('.edit-btn');
+        editBtn.addEventListener('click', editItem);
+        //append child
+        //add element to the list
+        list.appendChild(element);
+}
